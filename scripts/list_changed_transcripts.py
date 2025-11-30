@@ -41,7 +41,7 @@ def _run_git(args: Sequence[str]) -> List[str]:
         check=True,
         text=True,
     )
-    return [line.strip() for line in completed.stdout splitlines() if line.strip()]
+    return [line.strip() for line in completed.stdout.splitlines() if line.strip()]
 
 
 def changed_files(base: str, head: str) -> Iterable[str]:
@@ -72,7 +72,7 @@ def main() -> None:
         sys.stderr.write(exc.stderr)
         sys.exit(exc.returncode)
 
-    filtered = filter_transcripts(files, args.roots)
+   .filtered = filter_transcripts(files, args.roots)
     for path in filtered:
         print(path)
 

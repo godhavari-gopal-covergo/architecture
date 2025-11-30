@@ -72,7 +72,7 @@ def main() -> None:
         sys.stderr.write(exc.stderr)
         sys.exit(exc.returncode)
 
-   .filtered = filter_transcripts(files, args.roots)
+    filtered = filter_transcripts(files, args.roots)
     for path in filtered:
         print(path)
 

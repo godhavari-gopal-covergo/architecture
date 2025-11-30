@@ -1,3 +1,73 @@
 name: Cursor Cloud Meeting Summary
 
-action...
+on:
+  push:
+    branches:
+      - main
+      - master
+    paths:
+      - "meeting-notes/**"
+      - "docs/meeting-notes/**"
+      - "transcripts/**"
+      - "meeting_transcripts/**"
+
+permissions:
+  contents: write
+
+jobs:
+  summarize:
+    name: Summarize new Google Meet docs
+    runs-on: ubuntu-latest
+    env:
+      CURSOR_API_KEY: ${{ secrets.CURSOR_API_KEY }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Identify changed meeting notes
+        id: changed
+        run: |
+          python scripts/list_changed_transcripts.py "${{ github.event.before }}" "${{ github.sha }}" > changed.txt
+          if [ ! -s changed.txt ]; then
+            echo "found=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "found=true" >> "$GITHUB_OUTPUT"
+            cat changed.txt
+          fi
+
+      - name: Generate meeting briefs
+        if: steps.changed.outputs.found == 'true'
+        run: |
+          mkdir -p meeting_outputs
+          while IFS= read -r note; do
+            filename="$(basename "$note")"
+            safe_name="${filename%.*}"
+            safe_name="${safe_name//[^A-Za-z0-9._-]/-}"
+            safe_name="${safe_name##-}"
+            safe_name="${safe_name%%-}"
+            safe_name="${safe_name:-note}"
+            python scripts/run_cursor_meeting_agent.py \
+              --transcript "$note" \
+              --slug "$safe_name" \
+              --output "meeting_outputs/${safe_name}.md"
+          done < changed.txt
+
+      - name: Commit meeting briefs
+        if: steps.changed.outputs.found == 'true'
+        run: |
+          if git status --short meeting_outputs 2>/dev/null | grep -q .; then
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add meeting_outputs
+            git commit -m "chore: add meeting brief outputs [skip ci]"
+            git push
+          else
+            echo "No meeting_outputs changes to commit."
+          fi
+
+      - name: Upload meeting briefs (artifact)
+        if: steps.changed.outputs.found == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: cursor-meeting-briefs
+          path: meeting_outputs/

@@ -1,0 +1,268 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://covergo.com/schemas/agent-migration-flat.json",
+  "title": "Agent Migration Flat Schema",
+  "description": "Flattened JSON schema for easier mapping from legacy systems - suitable for CSV/Excel import",
+  "type": "object",
+  "required": [
+    "agentNumber",
+    "firstName",
+    "surname",
+    "salutation",
+    "distributorId",
+    "distributorTeamId",
+    "activeFromDateTime"
+  ],
+  "properties": {
+    "agentID": {
+      "type": "string",
+      "description": "Unique identifier for the agent (auto-generated if not provided)"
+    },
+    "agentNumber": {
+      "type": "string",
+      "description": "Agent number/code for identification"
+    },
+    "firstName": {
+      "type": "string",
+      "description": "Agent's first name"
+    },
+    "surname": {
+      "type": "string",
+      "description": "Agent's surname/last name"
+    },
+    "salutation": {
+      "type": "string",
+      "description": "Salutation/title code (TTL reference data)",
+      "examples": ["Mr", "Mrs", "Ms", "Dr"]
+    },
+    "chineseName": {
+      "type": ["string", "null"],
+      "description": "Agent's Chinese name (optional)"
+    },
+    "distributorId": {
+      "type": "string",
+      "description": "ID of the parent distributor"
+    },
+    "distributorTeamId": {
+      "type": "string",
+      "description": "ID of the team within the distributor"
+    },
+    "registrationNumber": {
+      "type": ["string", "null"],
+      "description": "Registration number of Insurance Authority"
+    },
+    "registrationDateTime": {
+      "type": ["string", "null"],
+      "format": "date",
+      "description": "IA Registration date (YYYY-MM-DD)"
+    },
+    "licenseExpiryDateTime": {
+      "type": ["string", "null"],
+      "format": "date",
+      "description": "IA License expiry date (YYYY-MM-DD)"
+    },
+    "districtCode": {
+      "type": ["string", "null"],
+      "description": "District code"
+    },
+    "isVirtualAgent": {
+      "type": "boolean",
+      "description": "Whether this is a virtual agent",
+      "default": false
+    },
+    "virtualAgentName": {
+      "type": ["string", "null"],
+      "description": "Name for virtual agent (required if isVirtualAgent is true)"
+    },
+    "hasAgentNBI": {
+      "type": "boolean",
+      "description": "Agent New Business Indicator - permitted to sell new business",
+      "default": true
+    },
+    "creditCheckTotal": {
+      "type": "number",
+      "description": "Credit check total limit (0 = not applicable)",
+      "default": 0
+    },
+    "creditCheckCurrency": {
+      "type": ["string", "null"],
+      "description": "Currency code for credit check (CCY reference data)",
+      "examples": ["HKD", "USD", "EUR", "GBP"]
+    },
+    "creditCheckRunningTotal": {
+      "type": "number",
+      "description": "Current credit running total",
+      "default": 0
+    },
+    "addrLine1": {
+      "type": ["string", "null"],
+      "description": "Address line 1"
+    },
+    "addrLine2": {
+      "type": ["string", "null"],
+      "description": "Address line 2"
+    },
+    "addrLine3": {
+      "type": ["string", "null"],
+      "description": "Address line 3"
+    },
+    "addrLine4": {
+      "type": ["string", "null"],
+      "description": "Address line 4"
+    },
+    "postCode": {
+      "type": ["string", "null"],
+      "description": "Postal/zip code"
+    },
+    "countryCode": {
+      "type": ["string", "null"],
+      "description": "Country code (CRY reference data)",
+      "examples": ["HK", "US", "GB", "SG"]
+    },
+    "mainContactEmail": {
+      "type": ["string", "null"],
+      "format": "email",
+      "description": "Primary contact email address"
+    },
+    "mainContactPhone": {
+      "type": ["string", "null"],
+      "description": "Primary contact phone number"
+    },
+    "bankID": {
+      "type": ["string", "null"],
+      "description": "Bank identifier code (BNK reference data)"
+    },
+    "branchID": {
+      "type": ["string", "null"],
+      "description": "Bank branch identifier code (BRH reference data)"
+    },
+    "bankAccNumber": {
+      "type": ["string", "null"],
+      "description": "Bank account number"
+    },
+    "bankAccNumberIBAN": {
+      "type": ["string", "null"],
+      "description": "Bank account number in IBAN format"
+    },
+    "bankAccName": {
+      "type": ["string", "null"],
+      "description": "Bank account holder name"
+    },
+    "bankAccCurrency": {
+      "type": ["string", "null"],
+      "description": "Bank account currency (CCY reference data)"
+    },
+    "bankAccAddress": {
+      "type": ["string", "null"],
+      "description": "Bank account address"
+    },
+    "portalAccess": {
+      "type": "boolean",
+      "description": "Whether agent has broker portal access",
+      "default": false
+    },
+    "activeFromDateTime": {
+      "type": "string",
+      "format": "date",
+      "description": "Date from which agent is active (YYYY-MM-DD)"
+    },
+    "terminationDateTime": {
+      "type": ["string", "null"],
+      "format": "date",
+      "description": "Termination date if applicable (YYYY-MM-DD)"
+    },
+    "suspensionDateFrom": {
+      "type": ["string", "null"],
+      "format": "date",
+      "description": "Suspension start date (YYYY-MM-DD)"
+    },
+    "suspensionDateTo": {
+      "type": ["string", "null"],
+      "format": "date",
+      "description": "Suspension end date (YYYY-MM-DD)"
+    },
+    "allowSales": {
+      "type": "boolean",
+      "description": "Whether agent is allowed to make sales",
+      "default": true
+    },
+    "suspensionReason": {
+      "type": ["string", "null"],
+      "description": "Suspension reason code (X-PRD-AGTSUSPENSIONREASON reference data)"
+    },
+    "paymentFrequency": {
+      "type": ["string", "null"],
+      "description": "Commission payment frequency code (X-PRD-BILLFREQ reference data)"
+    },
+    "paymentCurrency": {
+      "type": ["string", "null"],
+      "description": "Commission payment currency (CCY reference data)"
+    },
+    "minThreshold": {
+      "type": "number",
+      "description": "Minimum threshold for commission payment",
+      "default": 0
+    },
+    "heldPayment": {
+      "type": "boolean",
+      "description": "Whether commission payments are held",
+      "default": false
+    },
+    "distributor_distributorName": {
+      "type": ["string", "null"],
+      "description": "Distributor name (for reference/validation)"
+    },
+    "distributor_defaultTeam": {
+      "type": ["string", "null"],
+      "description": "Distributor's default team name"
+    },
+    "distributor_salesChannelID": {
+      "type": ["string", "null"],
+      "description": "Distributor's sales channel ID"
+    },
+    "distributor_class": {
+      "type": ["string", "null"],
+      "description": "Distributor class/type"
+    },
+    "distributor_paymentTo": {
+      "type": ["string", "null"],
+      "description": "Commission payment destination",
+      "enum": [null, "DISTRIBUTOR", "AGENT"]
+    },
+    "distributor_canAgentsReadCommissions": {
+      "type": "boolean",
+      "description": "Whether agents can view commissions",
+      "default": false
+    },
+    "distributorTeam_name": {
+      "type": ["string", "null"],
+      "description": "Team name (for reference/validation)"
+    },
+    "distributorTeam_parentTeamID": {
+      "type": ["string", "null"],
+      "description": "Parent team ID for hierarchy"
+    }
+  },
+  "examples": [
+    {
+      "agentNumber": "AGT001",
+      "firstName": "John",
+      "surname": "Smith",
+      "salutation": "Mr",
+      "distributorId": "DIST001",
+      "distributorTeamId": "TEAM001",
+      "isVirtualAgent": false,
+      "hasAgentNBI": true,
+      "addrLine1": "123 Main Street",
+      "postCode": "12345",
+      "countryCode": "HK",
+      "mainContactEmail": "john.smith@example.com",
+      "mainContactPhone": "+85212345678",
+      "portalAccess": true,
+      "activeFromDateTime": "2024-01-01",
+      "allowSales": true,
+      "creditCheckTotal": 100000,
+      "creditCheckCurrency": "HKD"
+    }
+  ]
+}

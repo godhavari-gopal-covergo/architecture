@@ -1,0 +1,293 @@
+{
+  "agents": [
+    {
+      "agentID": "agent-001",
+      "agentNumber": "AGT-2024-001",
+      "distributorId": "dist-001",
+      "distributorTeamId": "team-001",
+      "portalUserId": null,
+      "isAgentLoginActive": true,
+      "basic": {
+        "firstName": "John",
+        "surname": "Smith",
+        "salutation": "Mr",
+        "chineseName": "約翰·史密斯"
+      },
+      "distribution": {
+        "distributorID": "dist-001",
+        "distributorTeamID": "team-001",
+        "registrationNumber": "IA-12345",
+        "registrationDateTime": "2020-01-15T00:00:00Z",
+        "licenseExpiryDateTime": "2025-01-14T23:59:59Z",
+        "districtCode": "HK-CEN",
+        "isVirtualAgent": false,
+        "virtualAgentName": null,
+        "hasAgentNBI": true,
+        "creditCheckTotal": 500000,
+        "creditCheckCurrency": "HKD",
+        "creditCheckRunningTotal": 125000
+      },
+      "contact": {
+        "addrLine1": "Unit 1234, Tower A",
+        "addrLine2": "Central Business District",
+        "addrLine3": "Central",
+        "addrLine4": null,
+        "postCode": "999077",
+        "countryCode": "HK",
+        "mainContactEmail": "john.smith@broker.com",
+        "mainContactPhone": "+85291234567"
+      },
+      "bankInformation": {
+        "bankID": "HSBC",
+        "branchID": "001",
+        "bankAccNumber": "123-456789-001",
+        "bankAccNumberIBAN": null,
+        "bankAccName": "John Smith",
+        "bankAccCurrency": "HKD",
+        "bankAccAddress": null
+      },
+      "access": {
+        "portalAccess": true,
+        "activeFromDateTime": "2020-01-15T00:00:00Z",
+        "terminationDateTime": null,
+        "suspensionDateFrom": null,
+        "suspensionDateTo": null,
+        "allowSales": true,
+        "suspensionReason": null
+      },
+      "payments": {
+        "paymentFrequency": "monthly",
+        "paymentCurrency": "HKD",
+        "minThreshold": 1000,
+        "heldPayment": false
+      },
+      "distributor": {
+        "distributorId": "dist-001",
+        "salesChannelID": "sc-001",
+        "class": "BROKER",
+        "salesTerritoryRoot": "APAC",
+        "hasPortalAccess": true,
+        "hasPortalAccessDefault": true,
+        "basic": {
+          "distributorName": "ABC Insurance Brokers Ltd",
+          "defaultTeam": "Default Team"
+        },
+        "party": {
+          "distributorName": "ABC Insurance Brokers Ltd",
+          "switchboardPhone": "+85228888888",
+          "mainContactPerson": "Mary Wong",
+          "addrLine1": "Suite 5001, IFC Two",
+          "addrLine2": "8 Finance Street",
+          "addrLine3": "Central",
+          "addrLine4": null,
+          "postCode": "999077",
+          "countryCode": "HK",
+          "mainContactEmail": "info@abcbrokers.com",
+          "mainContactPhone": "+85228888888"
+        },
+        "bankInformation": {
+          "bankID": "HSBC",
+          "branchID": "001",
+          "bankAccNumber": "123-456789-888",
+          "bankAccNumberIBAN": null,
+          "bankAccName": "ABC Insurance Brokers Ltd",
+          "bankAccCurrency": "HKD",
+          "bankAccAddress": null,
+          "isPrimary": true
+        },
+        "commissions": {
+          "paymentTo": "DISTRIBUTOR",
+          "heldPayment": false,
+          "canAgentsReadCommissions": true
+        },
+        "paymentData": {
+          "umbrellaPaymentRule": true,
+          "paymentFrequency": "monthly",
+          "minThreshold": 5000,
+          "paymentCurrency": "HKD"
+        },
+        "activeFromDateTime": "2019-01-01T00:00:00Z",
+        "terminationDateTime": null,
+        "teams": [
+          {
+            "distributorTeamID": "team-001",
+            "distributorID": "dist-001",
+            "parentTeamID": null,
+            "name": "Default Team",
+            "order": 1
+          },
+          {
+            "distributorTeamID": "team-002",
+            "distributorID": "dist-001",
+            "parentTeamID": "team-001",
+            "name": "Sales Team A",
+            "order": 2
+          }
+        ]
+      },
+      "distributorTeam": {
+        "distributorTeamID": "team-001",
+        "distributorID": "dist-001",
+        "parentTeamID": null,
+        "name": "Default Team",
+        "order": 1
+      },
+      "audit": {
+        "createdAt": "2020-01-15T10:30:00Z",
+        "createdById": "admin-001",
+        "lastModifiedAt": "2024-06-15T14:22:00Z",
+        "lastModifiedById": "admin-002"
+      }
+    },
+    {
+      "agentID": "agent-002",
+      "agentNumber": "AGT-2024-002",
+      "distributorId": "dist-001",
+      "distributorTeamId": "team-002",
+      "portalUserId": null,
+      "isAgentLoginActive": false,
+      "basic": {
+        "firstName": "Virtual",
+        "surname": "Agent",
+        "salutation": "N/A",
+        "chineseName": null
+      },
+      "distribution": {
+        "distributorID": "dist-001",
+        "distributorTeamID": "team-002",
+        "registrationNumber": null,
+        "registrationDateTime": null,
+        "licenseExpiryDateTime": null,
+        "districtCode": null,
+        "isVirtualAgent": true,
+        "virtualAgentName": "Online Sales Portal",
+        "hasAgentNBI": true,
+        "creditCheckTotal": 0,
+        "creditCheckCurrency": null,
+        "creditCheckRunningTotal": 0
+      },
+      "contact": null,
+      "bankInformation": null,
+      "access": {
+        "portalAccess": false,
+        "activeFromDateTime": "2023-01-01T00:00:00Z",
+        "terminationDateTime": null,
+        "suspensionDateFrom": null,
+        "suspensionDateTo": null,
+        "allowSales": true,
+        "suspensionReason": null
+      },
+      "payments": null,
+      "distributor": {
+        "distributorId": "dist-001",
+        "salesChannelID": "sc-001",
+        "class": "BROKER",
+        "basic": {
+          "distributorName": "ABC Insurance Brokers Ltd",
+          "defaultTeam": "Default Team"
+        }
+      },
+      "distributorTeam": {
+        "distributorTeamID": "team-002",
+        "distributorID": "dist-001",
+        "parentTeamID": "team-001",
+        "name": "Sales Team A",
+        "order": 2
+      },
+      "audit": {
+        "createdAt": "2023-01-01T09:00:00Z",
+        "createdById": "admin-001",
+        "lastModifiedAt": "2023-01-01T09:00:00Z",
+        "lastModifiedById": "admin-001"
+      }
+    }
+  ],
+  "distributors": [
+    {
+      "distributorId": "dist-001",
+      "salesChannelID": "sc-001",
+      "class": "BROKER",
+      "salesTerritoryRoot": "APAC",
+      "hasPortalAccess": true,
+      "hasPortalAccessDefault": true,
+      "portalConfig": null,
+      "basic": {
+        "distributorName": "ABC Insurance Brokers Ltd",
+        "defaultTeam": "Default Team"
+      },
+      "party": {
+        "distributorName": "ABC Insurance Brokers Ltd",
+        "switchboardPhone": "+85228888888",
+        "mainContactPerson": "Mary Wong",
+        "addrLine1": "Suite 5001, IFC Two",
+        "addrLine2": "8 Finance Street",
+        "addrLine3": "Central",
+        "addrLine4": null,
+        "postCode": "999077",
+        "countryCode": "HK",
+        "mainContactEmail": "info@abcbrokers.com",
+        "mainContactPhone": "+85228888888",
+        "bankID": "HSBC",
+        "branchID": "001",
+        "bankAccNumber": "123-456789-888",
+        "bankAccNumber2": null,
+        "bankAccCurrency": "HKD",
+        "bankAccName": "ABC Insurance Brokers Ltd",
+        "bankAccAddress": null
+      },
+      "bankInformation": {
+        "bankID": "HSBC",
+        "branchID": "001",
+        "bankAccNumber": "123-456789-888",
+        "bankAccNumberIBAN": null,
+        "bankAccName": "ABC Insurance Brokers Ltd",
+        "bankAccCurrency": "HKD",
+        "bankAccAddress": null,
+        "isPrimary": true
+      },
+      "commissions": {
+        "paymentTo": "DISTRIBUTOR",
+        "heldPayment": false,
+        "canAgentsReadCommissions": true
+      },
+      "paymentData": {
+        "umbrellaPaymentRule": true,
+        "paymentFrequency": "monthly",
+        "minThreshold": 5000,
+        "paymentCurrency": "HKD"
+      },
+      "activeFromDateTime": "2019-01-01T00:00:00Z",
+      "terminationDateTime": null,
+      "salesChannel": {
+        "salesChannelID": "sc-001",
+        "channelType": "BROKER",
+        "hasPortalAccess": true
+      },
+      "teams": [
+        {
+          "distributorTeamID": "team-001",
+          "distributorID": "dist-001",
+          "parentTeamID": null,
+          "name": "Default Team",
+          "order": 1,
+          "childTeams": [
+            {
+              "distributorTeamID": "team-002",
+              "distributorID": "dist-001",
+              "parentTeamID": "team-001",
+              "name": "Sales Team A",
+              "order": 2,
+              "childTeams": []
+            }
+          ]
+        }
+      ],
+      "audit": {
+        "createdAt": "2019-01-01T00:00:00Z",
+        "createdById": "system",
+        "lastModifiedAt": "2024-06-01T10:00:00Z",
+        "lastModifiedById": "admin-001"
+      }
+    }
+  ]
+}

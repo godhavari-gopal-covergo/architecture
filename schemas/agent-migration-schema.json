@@ -1,0 +1,1190 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://covergo.com/schemas/agent-migration.json",
+  "title": "Agent Migration Schema",
+  "description": "Complete JSON schema for extracting agent migration data from legacy systems, including distributor information",
+  "type": "object",
+  "required": ["agentID", "agentNumber", "distributorId", "basic", "distribution", "access"],
+  "properties": {
+    "agentID": {
+      "type": "string",
+      "description": "Unique identifier for the agent"
+    },
+    "agentNumber": {
+      "type": "string",
+      "description": "Agent number/code for identification"
+    },
+    "distributorId": {
+      "type": "string",
+      "description": "Reference to the parent distributor"
+    },
+    "distributorTeamId": {
+      "type": "string",
+      "description": "Reference to the distributor team the agent belongs to"
+    },
+    "portalUserId": {
+      "type": ["string", "null"],
+      "description": "Portal user ID if agent has portal access"
+    },
+    "isAgentLoginActive": {
+      "type": "boolean",
+      "description": "Whether the agent's login is currently active",
+      "default": false
+    },
+    "basic": {
+      "type": "object",
+      "description": "Basic agent information",
+      "required": ["firstName", "surname", "salutation"],
+      "properties": {
+        "firstName": {
+          "type": "string",
+          "description": "Agent's first name",
+          "minLength": 1,
+          "meta": {
+            "label": "First Name",
+            "component": "JInputText",
+            "required": true,
+            "fieldType": "text",
+            "validations": "required",
+            "order": 1
+          }
+        },
+        "surname": {
+          "type": "string",
+          "description": "Agent's surname/last name",
+          "minLength": 1,
+          "meta": {
+            "label": "Surname",
+            "component": "JInputText",
+            "required": true,
+            "fieldType": "text",
+            "validations": "required",
+            "order": 3
+          }
+        },
+        "salutation": {
+          "type": "string",
+          "description": "Salutation/title (reference data type: TTL)",
+          "meta": {
+            "label": "Salutation",
+            "component": "ReferenceDataSelect",
+            "required": true,
+            "fieldType": "referenceDataSelect",
+            "validations": "required",
+            "order": 4,
+            "referenceDataTypeId": "TTL"
+          }
+        },
+        "chineseName": {
+          "type": ["string", "null"],
+          "description": "Agent's Chinese name (optional)",
+          "meta": {
+            "label": "Chinese Name",
+            "component": "JInputText",
+            "required": false,
+            "fieldType": "text",
+            "order": 5
+          }
+        }
+      }
+    },
+    "distribution": {
+      "type": "object",
+      "description": "Distribution and licensing information",
+      "required": ["distributorID", "distributorTeamID"],
+      "properties": {
+        "distributorID": {
+          "type": "string",
+          "description": "ID of the distributor",
+          "meta": {
+            "label": "Distributor",
+            "component": "JSelect",
+            "required": true,
+            "fieldType": "select",
+            "validations": "required",
+            "order": 1
+          }
+        },
+        "distributorTeamID": {
+          "type": "string",
+          "description": "ID of the distributor team",
+          "meta": {
+            "label": "Team",
+            "component": "JSelect",
+            "required": true,
+            "fieldType": "select",
+            "validations": "required",
+            "order": 2
+          }
+        },
+        "registrationNumber": {
+          "type": ["string", "null"],
+          "description": "Registration number of Insurance Authority",
+          "meta": {
+            "label": "Registration No. of IA",
+            "component": "JInputText",
+            "required": false,
+            "fieldType": "text",
+            "order": 3
+          }
+        },
+        "registrationDateTime": {
+          "type": ["string", "null"],
+          "format": "date-time",
+          "description": "IA Registration date",
+          "meta": {
+            "label": "IA Registration Date",
+            "component": "CDatePicker",
+            "required": false,
+            "fieldType": "date",
+            "order": 4
+          }
+        },
+        "licenseExpiryDateTime": {
+          "type": ["string", "null"],
+          "format": "date-time",
+          "description": "IA License expiry date",
+          "meta": {
+            "label": "IA License Expiry Date",
+            "component": "CDatePicker",
+            "required": false,
+            "fieldType": "date",
+            "order": 5
+          }
+        },
+        "districtCode": {
+          "type": ["string", "null"],
+          "description": "District code",
+          "meta": {
+            "label": "District Code",
+            "component": "JInputText",
+            "required": false,
+            "fieldType": "text",
+            "order": 6
+          }
+        },
+        "virtualAgentName": {
+          "type": ["string", "null"],
+          "description": "Name used to identify the virtual agent (only if isVirtualAgent is true)",
+          "meta": {
+            "label": "Virtual Agent Name",
+            "component": "JInputText",
+            "required": false,
+            "fieldType": "text",
+            "order": 7,
+            "condition": "$get(isVirtualAgent).value == true",
+            "helpText": "Name used to identify the virtual agent."
+          }
+        },
+        "creditCheckTotal": {
+          "type": "number",
+          "description": "Credit check total limit (0 means credit check not applicable)",
+          "default": 0,
+          "meta": {
+            "label": "Credit Check Total",
+            "component": "JInputNumber",
+            "required": false,
+            "fieldType": "number",
+            "order": 8,
+            "helpText": "Used to check that the Agent has sufficient credit limit for a policy to be issued/amended. When 0, credit check would not be applicable."
+          }
+        },
+        "creditCheckCurrency": {
+          "type": ["string", "null"],
+          "description": "Currency for credit check (reference data type: CCY)",
+          "meta": {
+            "label": "Credit Check Currency",
+            "component": "ReferenceDataSelect",
+            "required": false,
+            "fieldType": "referenceDataSelect",
+            "order": 9,
+            "referenceDataTypeId": "CCY"
+          }
+        },
+        "creditCheckRunningTotal": {
+          "type": "number",
+          "description": "Current running total of credit used",
+          "default": 0,
+          "meta": {
+            "label": "Credit Check Running Total",
+            "component": "JInputNumber",
+            "required": false,
+            "fieldType": "number",
+            "order": 10
+          }
+        },
+        "isVirtualAgent": {
+          "type": "boolean",
+          "description": "Whether this is a virtual agent or real agent",
+          "default": false,
+          "meta": {
+            "label": "Virtual Agent",
+            "component": "JToggle",
+            "required": false,
+            "fieldType": "boolean",
+            "order": 11,
+            "helpText": "Nature of Agent, i.e. Real Agent or Virtual Agent."
+          }
+        },
+        "hasAgentNBI": {
+          "type": "boolean",
+          "description": "Agent New Business Indicator - permitted to sell new business",
+          "default": true,
+          "meta": {
+            "label": "Agent New Business Indicator",
+            "component": "JToggle",
+            "required": false,
+            "fieldType": "boolean",
+            "order": 12,
+            "helpText": "Agent is permitted to sell new business including additions/endorsements on existing policies."
+          }
+        }
+      }
+    },
+    "contact": {
+      "type": "object",
+      "description": "Contact information (required if not a virtual agent)",
+      "properties": {
+        "addrLine1": {
+          "type": "string",
+          "description": "Address line 1",
+          "meta": {
+            "label": "Address Line 1",
+            "component": "JInputText",
+            "required": true,
+            "fieldType": "text",
+            "validations": "required",
+            "order": 1
+          }
+        },
+        "addrLine2": {
+          "type": ["string", "null"],
+          "description": "Address line 2",
+          "meta": {
+            "label": "Address Line 2",
+            "component": "JInputText",
+            "required": false,
+            "fieldType": "text",
+            "order": 2
+          }
+        },
+        "addrLine3": {
+          "type": ["string", "null"],
+          "description": "Address line 3",
+          "meta": {
+            "label": "Address Line 3",
+            "component": "JInputText",
+            "required": false,
+            "fieldType": "text",
+            "order": 3
+          }
+        },
+        "addrLine4": {
+          "type": ["string", "null"],
+          "description": "Address line 4",
+          "meta": {
+            "label": "Address Line 4",
+            "component": "JInputText",
+            "required": false,
+            "fieldType": "text",
+            "order": 4
+          }
+        },
+        "postCode": {
+          "type": "string",
+          "description": "Postal/zip code",
+          "meta": {
+            "label": "Post Code",
+            "component": "JInputText",
+            "required": true,
+            "fieldType": "text",
+            "validations": "required",
+            "order": 5
+          }
+        },
+        "countryCode": {
+          "type": "string",
+          "description": "Country code (reference data type: CRY)",
+          "meta": {
+            "label": "Country",
+            "component": "ReferenceDataSelect",
+            "required": true,
+            "fieldType": "referenceDataSelect",
+            "validations": "required",
+            "order": 6,
+            "referenceDataTypeId": "CRY"
+          }
+        },
+        "mainContactEmail": {
+          "type": "string",
+          "format": "email",
+          "description": "Primary contact email address",
+          "meta": {
+            "label": "Email",
+            "component": "JInputText",
+            "required": true,
+            "fieldType": "text",
+            "validations": "email|required",
+            "order": 7
+          }
+        },
+        "mainContactPhone": {
+          "type": "string",
+          "description": "Primary contact phone number",
+          "meta": {
+            "label": "Phone Number",
+            "component": "JInputText",
+            "required": true,
+            "fieldType": "text",
+            "validations": "required|number",
+            "order": 8
+          }
+        }
+      },
+      "meta": {
+        "label": "Contact",
+        "component": "Group",
+        "required": true,
+        "fieldType": "object",
+        "validations": "required",
+        "order": 3,
+        "condition": "$get(isVirtualAgent).value != true"
+      }
+    },
+    "bankInformation": {
+      "type": "object",
+      "description": "Bank account information for agent",
+      "properties": {
+        "bankID": {
+          "type": ["string", "null"],
+          "description": "Bank identifier (reference data type: BNK)",
+          "meta": {
+            "label": "Bank",
+            "component": "ReferenceDataSelect",
+            "required": false,
+            "fieldType": "referenceDataSelect",
+            "order": 1,
+            "referenceDataTypeId": "BNK"
+          }
+        },
+        "branchID": {
+          "type": ["string", "null"],
+          "description": "Bank branch identifier (reference data type: BRH)",
+          "meta": {
+            "label": "Branch",
+            "component": "ReferenceDataSelect",
+            "required": false,
+            "fieldType": "referenceDataSelect",
+            "order": 2,
+            "referenceDataTypeId": "BRH"
+          }
+        },
+        "bankAccNumber": {
+          "type": ["string", "null"],
+          "description": "Bank account number",
+          "meta": {
+            "label": "Bank Account Number",
+            "component": "JInputText",
+            "required": false,
+            "fieldType": "text",
+            "order": 3
+          }
+        },
+        "bankAccNumberIBAN": {
+          "type": ["string", "null"],
+          "description": "Bank account number in IBAN format (if applicable)",
+          "meta": {
+            "label": "IBAN",
+            "component": "JInputText",
+            "required": false,
+            "fieldType": "text",
+            "order": 4,
+            "helpText": "If applicable, bank account number in IBAN format."
+          }
+        },
+        "bankAccName": {
+          "type": ["string", "null"],
+          "description": "Account holder name (if different from agent name)",
+          "meta": {
+            "label": "Account Name",
+            "component": "JInputText",
+            "required": false,
+            "fieldType": "text",
+            "order": 5,
+            "helpText": "Entered if different from Agent name."
+          }
+        },
+        "bankAccCurrency": {
+          "type": ["string", "null"],
+          "description": "Account currency (reference data type: CCY)",
+          "meta": {
+            "label": "Account Currency",
+            "component": "ReferenceDataSelect",
+            "required": false,
+            "fieldType": "referenceDataSelect",
+            "order": 6,
+            "referenceDataTypeId": "CCY"
+          }
+        },
+        "bankAccAddress": {
+          "type": ["string", "null"],
+          "description": "Account address (if different from agent address)",
+          "meta": {
+            "label": "Account Address",
+            "component": "JInputText",
+            "required": false,
+            "fieldType": "text",
+            "order": 7,
+            "helpText": "Entered if different from Agent Address."
+          }
+        }
+      },
+      "meta": {
+        "label": "Bank Information",
+        "component": "Group",
+        "required": false,
+        "fieldType": "object",
+        "order": 4,
+        "condition": "$get(isVirtualAgent).value != true"
+      }
+    },
+    "access": {
+      "type": "object",
+      "description": "Access control and status information",
+      "required": ["activeFromDateTime"],
+      "properties": {
+        "portalAccess": {
+          "type": "boolean",
+          "description": "Whether agent has access to the broker portal",
+          "default": false,
+          "meta": {
+            "label": "Portal Access Allowed",
+            "component": "JToggle",
+            "required": false,
+            "fieldType": "boolean",
+            "order": 1,
+            "helpText": "Allows access to the Broker Portal."
+          }
+        },
+        "activeFromDateTime": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Date from which the agent is allowed to sell new business",
+          "meta": {
+            "label": "Active From Date",
+            "component": "CDatePicker",
+            "required": true,
+            "fieldType": "date",
+            "validations": "required",
+            "order": 2,
+            "helpText": "The date from which the Agent is allowed to sell new business."
+          }
+        },
+        "terminationDateTime": {
+          "type": ["string", "null"],
+          "format": "date-time",
+          "description": "Date beyond which the agent is not allowed to sell new business",
+          "meta": {
+            "label": "Termination Date",
+            "component": "CDatePicker",
+            "required": false,
+            "fieldType": "date",
+            "order": 3,
+            "helpText": "The date beyond which the Agent is not allowed to sell new business. This is only filled in when a distributors services are discontinued by an insurer.",
+            "hidden": true
+          }
+        },
+        "suspensionDateFrom": {
+          "type": ["string", "null"],
+          "format": "date-time",
+          "description": "Start date of suspension period",
+          "meta": {
+            "label": "Suspension Date From",
+            "component": "CDatePicker",
+            "required": false,
+            "fieldType": "date",
+            "order": 4
+          }
+        },
+        "suspensionDateTo": {
+          "type": ["string", "null"],
+          "format": "date-time",
+          "description": "End date of suspension period",
+          "meta": {
+            "label": "Suspension Date to",
+            "component": "CDatePicker",
+            "required": false,
+            "fieldType": "date",
+            "order": 5
+          }
+        },
+        "allowSales": {
+          "type": "boolean",
+          "description": "Whether agent is allowed to make sales",
+          "default": true,
+          "meta": {
+            "label": "Allow Sales",
+            "component": "JToggle",
+            "required": false,
+            "fieldType": "boolean",
+            "order": 6
+          }
+        },
+        "suspensionReason": {
+          "type": ["string", "null"],
+          "description": "Reason for suspension (reference data type: X-PRD-AGTSUSPENSIONREASON)",
+          "meta": {
+            "label": "Reason for Suspension",
+            "component": "ReferenceDataSelect",
+            "required": false,
+            "fieldType": "referenceDataSelect",
+            "order": 7,
+            "referenceDataTypeId": "X-PRD-AGTSUSPENSIONREASON"
+          }
+        }
+      },
+      "meta": {
+        "label": "Access",
+        "component": "Group",
+        "required": false,
+        "fieldType": "object",
+        "order": 5
+      }
+    },
+    "payments": {
+      "type": "object",
+      "description": "Payment and commission configuration",
+      "properties": {
+        "paymentFrequency": {
+          "type": ["string", "null"],
+          "description": "Commission payment frequency (reference data type: X-PRD-BILLFREQ)",
+          "meta": {
+            "label": "Payment Frequency",
+            "component": "ReferenceDataSelect",
+            "required": false,
+            "fieldType": "referenceDataSelect",
+            "order": 1,
+            "referenceDataTypeId": "X-PRD-BILLFREQ",
+            "helpText": "Blank if 'umbrella payment' rule is 'false'. Otherwise must be a valid frequency type."
+          }
+        },
+        "paymentCurrency": {
+          "type": ["string", "null"],
+          "description": "Currency for commission payments (reference data type: CCY)",
+          "meta": {
+            "label": "Payment Currency",
+            "component": "ReferenceDataSelect",
+            "required": false,
+            "fieldType": "referenceDataSelect",
+            "order": 2,
+            "referenceDataTypeId": "CCY",
+            "helpText": "Blank if 'umbrella payment' rule is 'false'. Otherwise must be a valid currency."
+          }
+        },
+        "minThreshold": {
+          "type": "number",
+          "description": "Minimum threshold for commission payment",
+          "default": 0,
+          "meta": {
+            "label": "Minimum Threshold",
+            "component": "JInputNumber",
+            "required": false,
+            "fieldType": "number",
+            "order": 3,
+            "helpText": "Used to limit small payments and only transfer commission when it exceeds a certain amount."
+          }
+        },
+        "heldPayment": {
+          "type": "boolean",
+          "description": "Whether commission payments are held",
+          "default": false,
+          "meta": {
+            "label": "Hold Commissions Payment",
+            "component": "JToggle",
+            "required": false,
+            "fieldType": "boolean",
+            "order": 4
+          }
+        }
+      },
+      "meta": {
+        "label": "Payments",
+        "component": "Group",
+        "required": false,
+        "fieldType": "object",
+        "order": 6,
+        "condition": "$get(isVirtualAgent).value != true"
+      }
+    },
+    "distributor": {
+      "type": "object",
+      "description": "Embedded distributor information",
+      "$ref": "#/definitions/distributor"
+    },
+    "distributorTeam": {
+      "type": "object",
+      "description": "Distributor team information",
+      "$ref": "#/definitions/distributorTeam"
+    },
+    "audit": {
+      "type": "object",
+      "description": "Audit trail information",
+      "properties": {
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Timestamp when the agent was created"
+        },
+        "createdById": {
+          "type": ["string", "null"],
+          "description": "ID of user who created the agent"
+        },
+        "lastModifiedAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Timestamp when the agent was last modified"
+        },
+        "lastModifiedById": {
+          "type": ["string", "null"],
+          "description": "ID of user who last modified the agent"
+        }
+      }
+    }
+  },
+  "definitions": {
+    "distributor": {
+      "type": "object",
+      "title": "Distributor Schema",
+      "description": "Schema for distributor entity",
+      "required": ["distributorId", "salesChannelID", "class", "basic"],
+      "properties": {
+        "distributorId": {
+          "type": "string",
+          "description": "Unique identifier for the distributor"
+        },
+        "salesChannelID": {
+          "type": "string",
+          "description": "Reference to the sales channel"
+        },
+        "class": {
+          "type": "string",
+          "description": "Distributor class/type"
+        },
+        "salesTerritoryRoot": {
+          "type": ["string", "null"],
+          "description": "Root territory for sales"
+        },
+        "hasPortalAccess": {
+          "type": "boolean",
+          "description": "Whether distributor has portal access",
+          "default": false
+        },
+        "hasPortalAccessDefault": {
+          "type": "boolean",
+          "description": "Default portal access setting for agents",
+          "default": false
+        },
+        "portalConfig": {
+          "type": ["string", "null"],
+          "description": "Portal configuration JSON"
+        },
+        "basic": {
+          "type": "object",
+          "description": "Basic distributor information",
+          "required": ["distributorName", "defaultTeam"],
+          "properties": {
+            "distributorName": {
+              "type": "string",
+              "description": "Name of the distributor",
+              "minLength": 1,
+              "meta": {
+                "label": "Distributor Name",
+                "component": "JInputText",
+                "required": true,
+                "fieldType": "text",
+                "validations": "required",
+                "order": 1
+              }
+            },
+            "defaultTeam": {
+              "type": "string",
+              "description": "Default team name for the distributor",
+              "minLength": 1,
+              "meta": {
+                "label": "Default Team",
+                "component": "JInputText",
+                "required": true,
+                "fieldType": "text",
+                "validations": "required",
+                "order": 2
+              }
+            }
+          },
+          "meta": {
+            "label": "Basic",
+            "component": "Group",
+            "required": false,
+            "fieldType": "object",
+            "order": 1
+          }
+        },
+        "party": {
+          "type": "object",
+          "description": "Party/contact information for distributor",
+          "properties": {
+            "distributorName": {
+              "type": "string",
+              "description": "Distributor's official name"
+            },
+            "switchboardPhone": {
+              "type": ["string", "null"],
+              "description": "Switchboard phone number"
+            },
+            "mainContactPerson": {
+              "type": ["string", "null"],
+              "description": "Main contact person name"
+            },
+            "addrLine1": {
+              "type": "string",
+              "description": "Address line 1"
+            },
+            "addrLine2": {
+              "type": ["string", "null"],
+              "description": "Address line 2"
+            },
+            "addrLine3": {
+              "type": ["string", "null"],
+              "description": "Address line 3"
+            },
+            "addrLine4": {
+              "type": ["string", "null"],
+              "description": "Address line 4"
+            },
+            "postCode": {
+              "type": "string",
+              "description": "Postal/zip code"
+            },
+            "countryCode": {
+              "type": "string",
+              "description": "Country code"
+            },
+            "mainContactEmail": {
+              "type": ["string", "null"],
+              "format": "email",
+              "description": "Main contact email"
+            },
+            "mainContactPhone": {
+              "type": ["string", "null"],
+              "description": "Main contact phone number"
+            }
+          }
+        },
+        "bankInformation": {
+          "type": "object",
+          "description": "Bank account information for distributor",
+          "properties": {
+            "bankID": {
+              "type": ["string", "null"],
+              "description": "Bank identifier (reference data type: BNK)",
+              "meta": {
+                "label": "Bank",
+                "component": "ReferenceDataSelect",
+                "required": false,
+                "fieldType": "referenceDataSelect",
+                "order": 1,
+                "referenceDataTypeId": "BNK"
+              }
+            },
+            "branchID": {
+              "type": ["string", "null"],
+              "description": "Bank branch identifier (reference data type: BRH)",
+              "meta": {
+                "label": "Branch",
+                "component": "ReferenceDataSelect",
+                "required": false,
+                "fieldType": "referenceDataSelect",
+                "order": 2,
+                "referenceDataTypeId": "BRH"
+              }
+            },
+            "bankAccNumber": {
+              "type": ["string", "null"],
+              "description": "Bank account number",
+              "meta": {
+                "label": "Bank Account Number",
+                "component": "JInputText",
+                "required": false,
+                "fieldType": "text",
+                "order": 3
+              }
+            },
+            "bankAccNumberIBAN": {
+              "type": ["string", "null"],
+              "description": "Bank account number in IBAN format",
+              "meta": {
+                "label": "IBAN",
+                "component": "JInputText",
+                "required": false,
+                "fieldType": "text",
+                "order": 4
+              }
+            },
+            "bankAccName": {
+              "type": ["string", "null"],
+              "description": "Account holder name",
+              "meta": {
+                "label": "Account Name",
+                "component": "JInputText",
+                "required": false,
+                "fieldType": "text",
+                "order": 5
+              }
+            },
+            "bankAccCurrency": {
+              "type": ["string", "null"],
+              "description": "Account currency (reference data type: CCY)",
+              "meta": {
+                "label": "Account Currency",
+                "component": "ReferenceDataSelect",
+                "required": false,
+                "fieldType": "referenceDataSelect",
+                "order": 6,
+                "referenceDataTypeId": "CCY"
+              }
+            },
+            "bankAccAddress": {
+              "type": ["string", "null"],
+              "description": "Account address",
+              "meta": {
+                "label": "Account Address",
+                "component": "JInputText",
+                "required": false,
+                "fieldType": "text",
+                "order": 7
+              }
+            },
+            "isPrimary": {
+              "type": "boolean",
+              "description": "Whether this is the primary bank account",
+              "default": false,
+              "meta": {
+                "label": "Primary Bank Account",
+                "component": "JToggle",
+                "required": false,
+                "fieldType": "boolean",
+                "order": 8
+              }
+            }
+          },
+          "meta": {
+            "label": "Bank Information",
+            "component": "Group",
+            "required": false,
+            "fieldType": "object",
+            "order": 2
+          }
+        },
+        "commissions": {
+          "type": "object",
+          "description": "Commission payment configuration",
+          "properties": {
+            "paymentTo": {
+              "type": ["string", "null"],
+              "description": "Commission payment destination (DISTRIBUTOR or AGENT)",
+              "enum": [null, "DISTRIBUTOR", "AGENT"],
+              "meta": {
+                "label": "Commission Payment",
+                "component": "JSelect",
+                "required": false,
+                "fieldType": "select",
+                "order": 1,
+                "options": [
+                  {
+                    "key": "175938104622094169",
+                    "name": "Pay Commissions to Distributor",
+                    "value": "DISTRIBUTOR"
+                  },
+                  {
+                    "key": "175938111850069803",
+                    "name": "Pay Commissions to Agent",
+                    "value": "AGENT"
+                  }
+                ]
+              }
+            },
+            "heldPayment": {
+              "type": "boolean",
+              "description": "Whether commission payments are held",
+              "default": false,
+              "meta": {
+                "label": "Hold Commissions Payment",
+                "component": "JToggle",
+                "required": false,
+                "fieldType": "boolean",
+                "order": 2
+              }
+            },
+            "canAgentsReadCommissions": {
+              "type": "boolean",
+              "description": "Whether agents can view their commissions",
+              "default": false,
+              "meta": {
+                "label": "Display Agent Commissions",
+                "component": "JToggle",
+                "required": false,
+                "fieldType": "boolean",
+                "order": 3
+              }
+            }
+          },
+          "meta": {
+            "label": "Commissions",
+            "component": "Group",
+            "required": false,
+            "fieldType": "object",
+            "order": 3
+          }
+        },
+        "paymentData": {
+          "type": "object",
+          "description": "Payment schedule and configuration",
+          "properties": {
+            "umbrellaPaymentRule": {
+              "type": "boolean",
+              "description": "Whether umbrella payment rule applies",
+              "default": false
+            },
+            "paymentFrequency": {
+              "type": ["string", "null"],
+              "description": "Payment frequency",
+              "enum": [null, "annually", "monthly", "quarterly", "semi-annually"],
+              "meta": {
+                "label": "Payment Frequency",
+                "component": "JSelect",
+                "required": false,
+                "fieldType": "select",
+                "order": 1,
+                "options": [
+                  {
+                    "key": "175938215055635224",
+                    "name": "Annually",
+                    "value": "annually"
+                  },
+                  {
+                    "key": "175938228711678258",
+                    "name": "Monthly",
+                    "value": "monthly"
+                  },
+                  {
+                    "key": "175938228810081356",
+                    "name": "Quarterly",
+                    "value": "quarterly"
+                  },
+                  {
+                    "key": "175938228905522776",
+                    "name": "Semi Annually",
+                    "value": "semi-annually"
+                  }
+                ]
+              }
+            },
+            "minThreshold": {
+              "type": ["number", "null"],
+              "description": "Minimum threshold for payment",
+              "meta": {
+                "label": "Minimum Threshold",
+                "component": "JInputNumber",
+                "required": false,
+                "fieldType": "number",
+                "order": 2,
+                "helpText": "Used to limit small payments and only transfer commission when it exceeds a certain amount."
+              }
+            },
+            "paymentCurrency": {
+              "type": ["string", "null"],
+              "description": "Currency for payments (reference data type: CCY)",
+              "meta": {
+                "label": "Payment Currency",
+                "component": "ReferenceDataSelect",
+                "required": false,
+                "fieldType": "referenceDataSelect",
+                "order": 3,
+                "referenceDataTypeId": "CCY"
+              }
+            }
+          },
+          "meta": {
+            "label": "Payments",
+            "component": "Group",
+            "required": false,
+            "fieldType": "object",
+            "order": 4
+          }
+        },
+        "activeFromDateTime": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Date from which the distributor is active"
+        },
+        "terminationDateTime": {
+          "type": ["string", "null"],
+          "format": "date-time",
+          "description": "Date of termination (if applicable)"
+        },
+        "salesChannel": {
+          "type": "object",
+          "description": "Associated sales channel information",
+          "$ref": "#/definitions/salesChannel"
+        },
+        "teams": {
+          "type": "array",
+          "description": "List of teams under this distributor",
+          "items": {
+            "$ref": "#/definitions/distributorTeam"
+          }
+        },
+        "audit": {
+          "type": "object",
+          "description": "Audit trail information",
+          "properties": {
+            "createdAt": {
+              "type": "string",
+              "format": "date-time",
+              "description": "Timestamp when the distributor was created"
+            },
+            "createdById": {
+              "type": ["string", "null"],
+              "description": "ID of user who created the distributor"
+            },
+            "lastModifiedAt": {
+              "type": "string",
+              "format": "date-time",
+              "description": "Timestamp when the distributor was last modified"
+            },
+            "lastModifiedById": {
+              "type": ["string", "null"],
+              "description": "ID of user who last modified the distributor"
+            }
+          }
+        }
+      }
+    },
+    "distributorTeam": {
+      "type": "object",
+      "title": "Distributor Team Schema",
+      "description": "Schema for distributor team entity",
+      "required": ["distributorTeamID", "distributorID", "name"],
+      "properties": {
+        "distributorTeamID": {
+          "type": "string",
+          "description": "Unique identifier for the team"
+        },
+        "distributorID": {
+          "type": "string",
+          "description": "Reference to the parent distributor"
+        },
+        "parentTeamID": {
+          "type": ["string", "null"],
+          "description": "Reference to parent team (for hierarchical structures)"
+        },
+        "name": {
+          "type": "string",
+          "description": "Name of the team",
+          "minLength": 1
+        },
+        "order": {
+          "type": "integer",
+          "description": "Display order for the team",
+          "default": 0
+        },
+        "childTeams": {
+          "type": "array",
+          "description": "Child teams under this team",
+          "items": {
+            "$ref": "#/definitions/distributorTeam"
+          }
+        },
+        "agents": {
+          "type": "array",
+          "description": "List of agents in this team",
+          "items": {
+            "type": "object",
+            "properties": {
+              "agentID": {
+                "type": "string"
+              },
+              "agentNumber": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "audit": {
+          "type": "object",
+          "description": "Audit trail information",
+          "properties": {
+            "createdAt": {
+              "type": "string",
+              "format": "date-time",
+              "description": "Timestamp when the team was created"
+            },
+            "createdById": {
+              "type": ["string", "null"],
+              "description": "ID of user who created the team"
+            },
+            "lastModifiedAt": {
+              "type": "string",
+              "format": "date-time",
+              "description": "Timestamp when the team was last modified"
+            },
+            "lastModifiedById": {
+              "type": ["string", "null"],
+              "description": "ID of user who last modified the team"
+            }
+          }
+        }
+      }
+    },
+    "salesChannel": {
+      "type": "object",
+      "title": "Sales Channel Schema",
+      "description": "Schema for sales channel entity",
+      "required": ["salesChannelID", "channelType"],
+      "properties": {
+        "salesChannelID": {
+          "type": "string",
+          "description": "Unique identifier for the sales channel"
+        },
+        "channelType": {
+          "type": "string",
+          "description": "Type of sales channel"
+        },
+        "hasPortalAccess": {
+          "type": "boolean",
+          "description": "Whether the channel has portal access",
+          "default": false
+        },
+        "audit": {
+          "type": "object",
+          "description": "Audit trail information",
+          "properties": {
+            "createdAt": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "createdById": {
+              "type": ["string", "null"]
+            },
+            "lastModifiedAt": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "lastModifiedById": {
+              "type": ["string", "null"]
+            }
+          }
+        }
+      }
+    }
+  }
+}
